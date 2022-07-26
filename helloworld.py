@@ -1,1 +1,2 @@
-print("hello ZA world")
+if__name__=="__main__":
+	print("hello ZA world")
