@@ -1,2 +1,2 @@
-if__name__=="__main__":
-	print("hello COMMIT")
+print("hello COMMIT")
+print("vscode!")
