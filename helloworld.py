@@ -1,5 +1,15 @@
-if__name__=="__main__":
-	print("hello ZA world")
-xapp-1-A03QZ9UFZR8-3861977259569-457d484720dc9865f6813ed42f248b055323a07d2f4aa58daeb1076d79627c7b
+import numbers
+from re import X
 
-bot token: xoxb-3842720262582-3846401217797-nvGJP8N7tAtipgBAIk5qz7Pk
+
+print("hello ZA world")
+
+types of dice...
+1d4 =
+1 [number of dice] 4 highest number
+
+percentile
+!X
+1-x
+if x = 100
+randomint(1,x)
