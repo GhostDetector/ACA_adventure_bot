@@ -1,6 +1,6 @@
 import logging
 import os
-import pandas as pd
+from csv import reader
 import random
 import re
 
@@ -22,8 +22,8 @@ logger = logging.getLogger(__name__)
 channel_name = "bot-testing"
 
 print("Running")
-job = ["Barbarian", "Cleric", "Rogue", "Druid", "Ranger", "Paladin", "Fighter"]
 
+#Random Joke Bot
 @app.message(re.compile("^joke$"))  # type: ignore
 def show_random_joke(message, say):
     """Send a random pyjoke back"""
@@ -39,25 +39,19 @@ def show_random_joke(message, say):
 
     say(text=joke, channel=dm_channel)
 
-@app.message(re.compile("^joke$"))
-def show_joke(message,say):
-    print("sent msg")
-    channel_type = message ["channel_type"]
-    dm_channel= message['channel']
-    user_id = message["user"]
-    say("No")
-
 @app.event("app_mention")
 def mention_handler(say):
     print("Talk")
-    say("Whats Up")
+    say("Commands are: [role, damage,dmg,class,job,pc, mob, monster, encounter]")
 
+#Sees if a message is sent into chat reacts accordingly
 @app.event("message")
 def echo(message, say):
     print("Detected Message")
     msg = message["text"]
     s = msg.split(" ")
     
+    #Roll regular roll with any number of dice
     if(s[0]=="roll"):
         print("roll")
         s = s[1].split("d")
@@ -72,6 +66,7 @@ def echo(message, say):
         final = '-'.join(amt)
         say("Roll [" + final + "]")
 
+    #Rolls Damage dice
     if(s[0]=="Damage" or s[0]=="dmg"):
         print("damage")
         s = s[1].split("d")
@@ -86,11 +81,57 @@ def echo(message, say):
 
         final = '-'.join(amt)
         say("Roll [" + final + "]\n " + "Damage: " + str(total))
-    if(msg == "class" or msg == "Class"):
-        data = pd.read_csv('classes.csv')
-        data.head()
+    
+    #Generates a random Class
+    if(msg == "class" or msg == "Class" or msg == "job"):
+        job = []
+        with open("classes.csv", "r") as my_file:
+            # pass the file object to reader()
+            file_reader = reader(my_file)
+            # do this for all the rows
+            for i in file_reader:
+                job.append(i)
         r = random.randrange(0,len(job))
-        say(job[r])
+        tell = job[r]
+        print (tell[0])
+        say("Why not a " + tell[0] + "?")
+
+    #Generates a Character + Class
+    if(msg == "pc"):
+        job = []
+        with open("classes.csv", "r") as my_file:
+            # pass the file object to reader()
+            file_reader = reader(my_file)
+            # do this for all the rows
+            for i in file_reader:
+                job.append(i)
+        race = []
+        with open("races.csv", "r") as my_file:
+            # pass the file object to reader()
+            file_reader = reader(my_file)
+            # do this for all the rows
+            for i in file_reader:
+                race.append(i)
+        r = random.randrange(0,len(race))
+        b = random.randrange(0,len(job))
+        ra = race[r]
+        jo = job[b]
+        print(race[r],job[b])
+        say("Character: " +  ra[0] + " " + jo[0])
+
+    #Generates a monster from monsterList.csv
+    if(msg == "monster" or msg == "encounter" or msg == "mob"):
+        mob = []
+        with open("monsterList.csv", "r") as my_file:
+            # pass the file object to reader()
+            file_reader = reader(my_file)
+            # do this for all the rows
+            for i in file_reader:
+                mob.append(i)
+        r = random.randrange(0,len(mob))
+        tell = mob[r]
+        print (tell[0])
+        say("You encounter a " + tell[0] + "!")
 
 
 if __name__=="__main__":
