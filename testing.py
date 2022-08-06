@@ -19,30 +19,31 @@ slack_bot_token = os.environ["bottoken"]
 app = App(token=slack_bot_token)
 logger = logging.getLogger(__name__)
 
-channel_name = "bot-testing"
-
 print("Running")
 
 #Random Joke Bot
 @app.message(re.compile("^joke$"))  # type: ignore
 def show_random_joke(message, say):
     """Send a random pyjoke back"""
+    """
     channel_type = message["channel_type"]
     if channel_type != "im":
         return
-
+    """
     dm_channel = message["channel"]
     user_id = message["user"]
 
     joke = pyjokes.get_joke()
     logger.info(f"Sent joke < {joke} > to user {user_id}")
-
-    say(text=joke, channel=dm_channel)
+    l = joke.split('?')
+    say(l[0]+ "?")
+    say(l[1])
+    #say(text=dm_channel + " " + joke, channel=dm_channel)
 
 @app.event("app_mention")
 def mention_handler(say):
-    print("Talk")
     say("Commands are: [role, damage,dmg,class,job,pc, mob, monster, encounter]")
+
 
 #Sees if a message is sent into chat reacts accordingly
 @app.event("message")
@@ -53,34 +54,35 @@ def echo(message, say):
     
     #Roll regular roll with any number of dice
     if(s[0]=="roll"):
-        print("roll")
-        s = s[1].split("d")
-        die = int(s[0])
-        result = int(s[1])
+        dice = s[1].split("d")
+        die = int(dice[0])
+        result = int(dice[1])
         amt = []
 
         for x in range(die):
             ran = random.randrange(1,result)
+            print("Rolling . . .  " + str(x))
             amt.append(str(ran))
 
         final = '-'.join(amt)
-        say("Roll [" + final + "]")
+        say("Rolling:" + s[1] + " : [" + final + "]")
 
     #Rolls Damage dice
     if(s[0]=="Damage" or s[0]=="dmg"):
         print("damage")
-        s = s[1].split("d")
-        die = int(s[0])
-        result = int(s[1])
+        dice = s[1].split("d")
+        die = int(dice[0])
+        result = int(dice[1])
         amt = []
         total = 0
         for x in range(die):
             ran = random.randrange(1,result)
+            print("Rolling . . .  " + str(x))
             amt.append(str(ran))
             total = total + ran
 
         final = '-'.join(amt)
-        say("Roll [" + final + "]\n " + "Damage: " + str(total))
+        say("Rolling:" + s[1] + " : [" + final + "]\n " + "Damage: " + str(total))
     
     #Generates a random Class
     if(msg == "class" or msg == "Class" or msg == "job"):
