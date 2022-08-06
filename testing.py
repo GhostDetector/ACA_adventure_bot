@@ -99,7 +99,7 @@ def echo(message, say):
         say("Why not a " + tell[0] + "?")
 
     #Generates a Character + Class
-    if(msg == "pc"):
+    if(msg == "pc" or msg == "player"):
         job = []
         with open("classes.csv", "r") as my_file:
             # pass the file object to reader()
