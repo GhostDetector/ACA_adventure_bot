@@ -56,7 +56,7 @@ def echo(message, say):
     if(s[0]=="roll"):
         dice = s[1].split("d")
         die = int(dice[0])
-        result = int(dice[1])
+        result = int(dice[1])+1
         amt = []
 
         for x in range(die):
@@ -72,7 +72,7 @@ def echo(message, say):
         print("damage")
         dice = s[1].split("d")
         die = int(dice[0])
-        result = int(dice[1])
+        result = int(dice[1])+1
         amt = []
         total = 0
         for x in range(die):
