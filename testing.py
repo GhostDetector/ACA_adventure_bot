@@ -96,7 +96,20 @@ def echo(message, say):
         r = random.randrange(0,len(job))
         tell = job[r]
         print (tell[0])
-        say("Why not a " + tell[0] + "?")
+        say("How about " + tell[0] + "?")
+
+    if(msg == "race" or msg == "Race"):
+        job = []
+        with open("races.csv", "r") as my_file:
+            # pass the file object to reader()
+            file_reader = reader(my_file)
+            # do this for all the rows
+            for i in file_reader:
+                job.append(i)
+        r = random.randrange(0,len(job))
+        tell = job[r]
+        print (tell[0])
+        say("How about " + tell[0] + "?")
 
     #Generates a Character + Class
     if(msg == "pc" or msg == "player"):
