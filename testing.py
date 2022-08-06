@@ -29,10 +29,11 @@ def show_random_joke(message, say):
     channel_type = message["channel_type"]
     if channel_type != "im":
         return
-    """
+    
     dm_channel = message["channel"]
+    """
     user_id = message["user"]
-
+    
     joke = pyjokes.get_joke()
     logger.info(f"Sent joke < {joke} > to user {user_id}")
     l = joke.split('?')
@@ -56,7 +57,7 @@ def echo(message, say):
     if(s[0]=="roll"):
         dice = s[1].split("d")
         die = int(dice[0])
-        result = int(dice[1])+1
+        result = int(dice[1])
         amt = []
 
         for x in range(die):
